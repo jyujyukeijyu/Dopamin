@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>脳汁枯渇度＆ドーパミン中毒レベル診断</title>
+  <style>
+    :root {
+      --bg: #0d0e15;
+      --card: #171926;
+      --border: #2a2e45;
+      --text: #f0f2f8;
+      --muted: #9aa0b8;
+      --accent1: #a855f7;
+      --accent2: #f97316;
+      --grad: linear-gradient(135deg, var(--accent1), var(--accent2));
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 560px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(168, 85, 247, 0.15);
+      color: #d8b4fe;
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .desc {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 10px;
+      background: var(--grad);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.92;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.99);
+    }
+
+    .progress-wrap {
+      margin-bottom: 20px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: #23273a;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--grad);
+      transition: width 0.25s ease;
+    }
+
+    .question-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      padding: 14px 16px;
+      background: #1f2233;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 14px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, transform 0.1s;
+    }
+
+    .option-btn:hover {
+      border-color: var(--accent1);
+      background: #262a40;
+    }
+
+    .result-type {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .result-img-wrap {
+      margin: 14px 0 16px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #131520;
+    }
+
+    .result-img {
+      display: block;
+      width: 100%;
+      max-height: 260px;
+      object-fit: cover;
+    }
+
+    .result-catch {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fdba74;
+      margin-bottom: 16px;
+    }
+
+    .box {
+      background: #131520;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+
+    .box-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .premium-box {
+      background: linear-gradient(145deg, rgba(168, 85, 247, 0.12), rgba(249, 115, 22, 0.12));
+      border: 1px solid rgba(168, 85, 247, 0.45);
+      border-radius: 12px;
+      padding: 18px;
+      margin-top: 20px;
+    }
+
+    .premium-box h3 {
+      font-size: 15px;
+      margin-bottom: 6px;
+      color: #f3e8ff;
+    }
+
+    .premium-box p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .btn-sub {
+      flex: 1;
+      padding: 11px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #1f2233;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .btn-sub:hover {
+      border-color: var(--muted);
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- スタート画面 -->
+    <div id="screen-start">
+      <span class="badge">所要時間 30秒 / 全5問</span>
+      <h1>脳汁枯渇度＆ドーパミン中毒レベル診断</h1>
+      <p class="desc">
+        今のあなたの脳みそは「刺激待ちの飢餓状態」か、それとも「脳汁オーバークロック状態」か？5つの質問でサクッと判定します。
+      </p>
+      <button class="btn-primary" onclick="startQuiz()">診断スタート</button>
+    </div>
+
+    <!-- 質問画面 -->
+    <div id="screen-quiz" class="hidden">
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span id="q-count">Q1 / 5</span>
+          <span id="q-percent">20%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+      <div class="question-title" id="question-text"></div>
+      <div class="options" id="options-container"></div>
+    </div>
+
+    <!-- 結果画面 -->
+    <div id="screen-result" class="hidden">
+      <span class="badge" id="result-score-badge">SCORE: 0 / 25</span>
+      <div class="result-type" id="result-title"></div>
+
+      <div class="result-img-wrap" id="result-img-wrap">
+        <img id="result-img" class="result-img" src="" alt="" />
+      </div>
+
+      <div class="result-catch" id="result-catch"></div>
+
+      <div class="box">
+        <div class="box-title">診断結果の解説</div>
+        <p id="result-desc"></p>
+      </div>
+
+      <div class="box">
+        <div class="box-title">今日の一言アドバイス</div>
+        <p id="result-advice"></p>
+      </div>
+
+      <!-- 有料追加コンテンツ導線 -->
+      <div class="premium-box">
+        <h3>さらに深掘り：裏診断＆脳汁コントロール術（100円）</h3>
+        <p>
+          無料診断はここまでで完結です！もっと辛口な裏コメントと、あなたのタイプ専用の「集中力ハック3選」を見たい方向けの追加レポートです。
+        </p>
+        <!-- 本番ではここを Stripe Payment Links のURLに差し替える -->
+        <button class="btn-primary" onclick="openStripeLink()">詳細レポートを見る（100円 / Stripe）</button>
+      </div>
+
+      <div class="action-row">
+        <a id="share-x" class="btn-sub" href="#" target="_blank" rel="noopener noreferrer">Xで結果をシェア</a>
+        <button class="btn-sub" onclick="resetQuiz()">もう一度診断する</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ここにStripe管理画面で発行した Payment Link のURLを設定する
+    const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/test_7sY4grdv3fxj5EkcVrgUM00";
+
+    const questions = [
+      {
+        q: "Q1. 動画や解説を見るときの基本スタイルは？",
+        options: [
+          { text: "1.5倍速〜2倍速がデフォ。結論までシークバーを飛ばす", score: 5 },
+          { text: "面白いところだけ集中して見て、あとは流す", score: 3 },
+          { text: "等倍でまったり見る。長尺でも全然いける", score: 1 }
+        ]
+      },
+      {
+        q: "Q2. ちょっとした待ち時間やスキマ時間ができたら？",
+        options: [
+          { text: "無意識に指が動いてスマホで刺激を探している", score: 5 },
+          { text: "とりあえず通知チェックか、気になる話題を検索する", score: 3 },
+          { text: "特に何もせずボーッとするか、景色を眺める", score: 1 }
+        ]
+      },
+      {
+        q: "Q3. 「あと1回だけ…」「あと5分だけ…」が始まったときは？",
+        options: [
+          { text: "気づいたら深夜。脳汁が切れるまで止まらない", score: 5 },
+          { text: "キリのいいところまでは粘るが、なんとか切り上げる", score: 3 },
+          { text: "時間になったらスパッとやめられる", score: 1 }
+        ]
+      },
+      {
+        q: "Q4. 作業やゲームでいちばんテンションが上がる瞬間は？",
+        options: [
+          { text: "怒涛の連続コンボ・爆速展開・予想外の神引き", score: 5 },
+          { text: "自分の狙い通りに物事がハマった瞬間", score: 3 },
+          { text: "コツコツ積み上げたものが静かに完成したとき", score: 1 }
+        ]
+      },
+      {
+        q: "Q5. 今の自分の脳みそを一言で表すと？",
+        options: [
+          { text: "常に新しい刺激を求めてギラギラしている", score: 5 },
+          { text: "いい感じにエンジンが回っている", score: 3 },
+          { text: "ちょっと省エネモード。静かに過ごしたい", score: 1 }
+        ]
+      }
+    ];
+
+    const results = [
+      {
+        min: 21,
+        max: 25,
+        title: "【脳汁フルスロットル・ハイテンション型】",
+        catch: "脳内報酬系が常にオーバークロック状態。テンポと刺激の化身。",
+        image: "./images/result_high.png",
+        imageAlt: "脳汁フルスロットル・ハイテンション型のイメージ画像",
+        desc: "待ち時間ゼロ・結論ファースト・高速展開が大好物。一度スイッチが入ると驚異的な瞬発力と熱量を発揮する反面、退屈や単調な作業には極端に弱い傾向あり。「面白そう！」の直感だけで突っ走るエネルギーは最強の武器。",
+        advice: "今日は勢い任せでOK。ただし深夜の「あと1回」だけはタイマーをかけておこう。"
+      },
+      {
+        min: 15,
+        max: 20,
+        title: "【刺激ハンター・波乗り型】",
+        catch: "退屈を嫌い、ちょうどいい刺激を嗅ぎ分けるバランス型ドパガキ。",
+        image: "./images/result_wave.png",
+        imageAlt: "刺激ハンター・波乗り型のイメージ画像",
+        desc: "普段は冷静なのに、ツボにハマるものを見つけると一気に過集中モードへ突入するタイプ。テンポの良さを重視しつつも、自分なりのこだわりポイントがはっきりしているのが特徴。",
+        advice: "最初の5分だけ手を動かすと一気にゾーンに入りやすい日。"
+      },
+      {
+        min: 10,
+        max: 14,
+        title: "【マイペース没頭・職人型】",
+        catch: "派手な花火より、じわじわ効く達成感で脳汁を出すタイプ。",
+        image: "./images/result_craft.png",
+        imageAlt: "マイペース没頭・職人型のイメージ画像",
+        desc: "外部からの強制的なハイテンポよりも、自分のペースで深く潜り込む作業や趣味で満足感を得られる状態。派手さはなくても、気づけば一番遠くまで進んでいる堅実派。",
+        advice: "周りのスピードに合わせず、自分の心地よいリズムを死守するのが吉。"
+      },
+      {
+        min: 5,
+        max: 9,
+        title: "【ドーパミン省エネ・クールダウン型】",
+        catch: "脳内バッテリーを温存中。今は静かな休息と充電がベストな状態。",
+        image: "./images/result_eco.png",
+        imageAlt: "ドーパミン省エネ・クールダウン型のイメージ画像",
+        desc: "無理にテンションを上げようとすると空回りしやすいタイミング。今は派手な刺激を追いかけるより、好きな飲み物や落ち着いた環境で脳を休ませるほうが結果的に回復が早い。",
+        advice: "今日は「最低限これだけやれば合格」とハードルを極限まで下げて過ごそう。"
+      }
+    ];
+
+    let currentIndex = 0;
+    let totalScore = 0;
+
+    function startQuiz() {
+      currentIndex = 0;
+      totalScore = 0;
+      document.getElementById("screen-start").classList.add("hidden");
+      document.getElementById("screen-result").classList.add("hidden");
+      document.getElementById("screen-quiz").classList.remove("hidden");
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const item = questions[currentIndex];
+      const step = currentIndex + 1;
+      const percent = Math.round((step / questions.length) * 100);
+
+      document.getElementById("q-count").textContent = `Q${step} / ${questions.length}`;
+      document.getElementById("q-percent").textContent = `${percent}%`;
+      document.getElementById("progress-fill").style.width = `${percent}%`;
+      document.getElementById("question-text").textContent = item.q;
+
+      const optionsContainer = document.getElementById("options-container");
+      optionsContainer.innerHTML = "";
+
+      item.options.forEach((opt) => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.textContent = opt.text;
+        btn.onclick = () => selectOption(opt.score);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(score) {
+      totalScore += score;
+      currentIndex++;
+
+      if (currentIndex < questions.length) {
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      document.getElementById("screen-quiz").classList.add("hidden");
+      document.getElementById("screen-result").classList.remove("hidden");
+
+      const matched = results.find((r) => totalScore >= r.min && totalScore <= r.max) || results[0];
+
+      document.getElementById("result-score-badge").textContent = `SCORE: ${totalScore} / 25`;
+      document.getElementById("result-title").textContent = matched.title;
+      document.getElementById("result-catch").textContent = matched.catch;
+      document.getElementById("result-desc").textContent = matched.desc;
+      document.getElementById("result-advice").textContent = matched.advice;
+
+      const imgWrap = document.getElementById("result-img-wrap");
+      const imgEl = document.getElementById("result-img");
+
+      if (matched.image) {
+        imgWrap.classList.remove("hidden");
+        imgEl.alt = matched.imageAlt || matched.title;
+        imgEl.onerror = () => {
+          imgWrap.classList.add("hidden");
+        };
+        imgEl.src = matched.image;
+      } else {
+        imgWrap.classList.add("hidden");
+      }
+
+      const shareText = encodeURIComponent(
+        `【脳汁枯渇度＆ドーパミン中毒レベル診断】\n結果は ${matched.title}（${totalScore}/25点）でした！\n#脳汁診断`
+      );
+      document.getElementById("share-x").href = `https://twitter.com/intent/tweet?text=${shareText}`;
+    }
+
+    function openStripeLink() {
+      if (STRIPE_PAYMENT_LINK.includes("test_your_link_here")) {
+        alert("ここにStripeのPayment Link URLを設定すると決済画面へ遷移します！");
+        return;
+      }
+      window.open(STRIPE_PAYMENT_LINK, "_blank", "noopener,noreferrer");
+    }
+
+    function resetQuiz() {
+      document.getElementById("screen-result").classList.add("hidden");
+      document.getElementById("screen-start").classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>

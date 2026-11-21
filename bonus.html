@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>購入者限定レポート｜脳汁枯渇度＆ドーパミン中毒レベル診断</title>
+  <style>
+    :root {
+      --bg: #0d0e15;
+      --card: #171926;
+      --card-inner: #12141f;
+      --border: #2a2e45;
+      --text: #f0f2f8;
+      --muted: #9aa0b8;
+      --accent1: #a855f7;
+      --accent2: #f97316;
+      --warn: #fb7185;
+      --grad: linear-gradient(135deg, var(--accent1), var(--accent2));
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 28px 18px 60px;
+      line-height: 1.65;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(168, 85, 247, 0.16);
+      color: #e9d5ff;
+      border: 1px solid rgba(168, 85, 247, 0.45);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .sub-note {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .tabs-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    @media (min-width: 560px) {
+      .tabs {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .tab-btn {
+      padding: 10px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      text-align: center;
+    }
+
+    .tab-btn:hover {
+      color: var(--text);
+      border-color: var(--accent1);
+    }
+
+    .tab-btn.active {
+      background: var(--grad);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .report-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 22px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    }
+
+    .type-header {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .score-pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fdba74;
+      background: rgba(249, 115, 22, 0.14);
+      border: 1px solid rgba(249, 115, 22, 0.35);
+      padding: 2px 9px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+    }
+
+    .type-title {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .section-box {
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      margin-bottom: 10px;
+    }
+
+    .roast-title {
+      color: var(--warn);
+    }
+
+    .hack-title {
+      color: #c4b5fd;
+    }
+
+    .roast-text {
+      font-size: 14px;
+      color: var(--text);
+      white-space: pre-line;
+    }
+
+    .hack-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hack-item {
+      background: rgba(255, 255, 255, 0.02);
+      border-left: 3px solid var(--accent1);
+      padding: 10px 14px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .hack-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .hack-detail {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .footer-actions {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .btn-back {
+      display: inline-block;
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #1f2233;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .btn-back:hover {
+      border-color: var(--accent1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <span class="badge">PURCHASE UNLOCKED / 限定レポート</span>
+      <h1>辛口裏コメント＆集中力ハック3選</h1>
+      <p class="sub-note">
+        ご購入ありがとうございます！無料診断では語られなかった「本音のツッコミ」と、今の脳コンディションを活かすための実践ハックをまとめました。下のタブから自分のタイプを確認してください。
+      </p>
+    </div>
+
+    <div class="tabs-label">タイプを選択（全4タイプ閲覧可能）</div>
+    <div class="tabs" id="tabs"></div>
+
+    <div class="report-card" id="report-card"></div>
+
+    <div class="footer-actions">
+      <span>※本レポートはエンタメ＆自己管理用のヒントです。</span>
+      <!-- 診断トップへ戻るリンク（必要に応じてURLを調整） -->
+      <a class="btn-back" href="./index.html">診断ページへ戻る</a>
+    </div>
+  </div>
+
+  <script>
+    const reports = {
+      high: {
+        shortLabel: "フルスロットル型",
+        scoreRange: "SCORE: 21〜25 / 25",
+        title: "【脳汁フルスロットル・ハイテンション型】",
+        roast:
+          "正直に言うと、今のあなたは『刺激の即効性』に脳を完全にハックされています。2倍速やスキップを駆使して『分かった気』になるスピードだけは一流ですが、地味で時間のかかる積み上げ作業が出た瞬間にフリーズしがちです。\n\n『あと1回だけ』の甘い言葉に毎回引っかかって翌日の自分を犠牲にするのも、そろそろ卒業したいところ。勢いがあるのは武器ですが、ブレーキが壊れた車ではどこにも着けません。",
+        hacks: [
+          {
+            name: "1. 「25分＋5分」の強制タイマーで脳汁の蛇口を締める",
+            detail: "集中が乗っているときほどタイマーをセットし、音が鳴ったら強制的に手を止めて席を立つことで、翌日の疲労持ち越しを防ぎます。"
+          },
+          {
+            name: "2. 刺激の強いSNS・動画は『作業が終わった後のご褒美』に隔離する",
+            detail: "着手前に刺激を入れると脳の閾値が上がって本丸の作業がつまらなく感じます。まずは5分だけ本丸に触れてから刺激を解禁しましょう。"
+          },
+          {
+            name: "3. 『今日やらないこと』を1つ決めて迷いを消す",
+            detail: "選択肢が多いと目移りしてエネルギーが分散します。『今日はこれ以外の新しいことは触らない』と先に決めるだけで推進力が安定します。"
+          }
+        ]
+      },
+      wave: {
+        shortLabel: "刺激ハンター型",
+        scoreRange: "SCORE: 15〜20 / 25",
+        title: "【刺激ハンター・波乗り型】",
+        roast:
+          "普段は『自分は冷静にコントロールできている』と思い込んでいますが、刺さるネタを見つけた瞬間の沼り方はなかなかのものです。情報収集や準備の段階で満足してしまい、一番肝心な『最後までやり切る工程』で失速するパターンに心当たりはありませんか？\n\n器用で嗅覚が鋭いぶん、中途半端なところで手を止めやすいのが玉にキズ。波に乗る力はあるので、あとは着地まで持っていく仕組みを作るだけです。",
+        hacks: [
+          {
+            name: "1. 着手ハードルを『3分で終わる最小アクション』まで下げる",
+            detail: "完璧な準備を整えてから始めようとせず、ファイルを開く・1行書く・1つ並べるなど、最初の小さな一歩だけで波を作ります。"
+          },
+          {
+            name: "2. 調査・リサーチの『制限時間』をあらかじめ決める",
+            detail: "調べているうちに時間が溶けるのを防ぐため、『15分調べたら必ず手を動かす』と区切ることで、インプット過多を止められます。"
+          },
+          {
+            name: "3. 集中が切れたら『環境音か場所』を少しだけ変える",
+            detail: "無理に根性で押し切るより、飲み物を替える・BGMを変える・立ち上がって伸びをするなど、軽い刺激の切り替えで再点火しやすくなります。"
+          }
+        ]
+      },
+      craft: {
+        shortLabel: "マイペース職人型",
+        scoreRange: "SCORE: 10〜14 / 25",
+        title: "【マイペース没頭・職人型】",
+        roast:
+          "周囲のハイテンポな空気に飲まれず自分のペースを守れるのは立派ですが、裏を返すと『こだわりすぎてリリースや完了が遅れる』あるいは『変化を嫌って安全な殻に閉じこもる』傾向があります。\n\n丁寧さは最大の強みですが、6〜7割の完成度で一度外に出す勇気を持たないと、いつまでも自分の手元だけで完結してしまいます。完璧主義の看板を少しだけ下ろしてみましょう。",
+        hacks: [
+          {
+            name: "1. 『完璧』ではなく『動く最小形（MVP）』を先に作る",
+            detail: "細部の調整に入る前に、まずは全体が通る骨組みを先に完成させることで、手戻りと停滞を防ぎます。"
+          },
+          {
+            name: "2. 1タスクあたりの『タイムボックス』を設定する",
+            detail: "納得いくまで延々と磨き続けるのを防ぐため、『この工程は40分まで』と上限を設けて次へ進むリズムを作ります。"
+          },
+          {
+            name: "3. 静かな環境＋単調な反復作業で『没入ゾーン』に入る",
+            detail: "通知を切り、自分のリズムで進められる作業を最初に片付けると、安定した集中状態が長く続きます。"
+          }
+        ]
+      },
+      eco: {
+        shortLabel: "省エネ充電型",
+        scoreRange: "SCORE: 5〜9 / 25",
+        title: "【ドーパミン省エネ・クールダウン型】",
+        roast:
+          "今のあなたはエネルギー残量がかなり少なくなっているのに、『まだやれるはず』『サボっているかも』と余計な罪悪感を抱えやすい状態です。ガス欠の状態で無理にアクセルを踏んでも、ミスが増えたり空回りしたりして効率はガタ落ちします。\n\n今は派手な目標を立てて自分を追い込むタイミングではありません。まずバッテリーを回復させることが、結果的に一番の近道です。",
+        hacks: [
+          {
+            name: "1. 今日のタスクを『1つだけ』に絞って罪悪感を消す",
+            detail: "やることリストが長いとそれだけで脳が疲弊します。今日できたらOKな最低ラインを1つだけ決め、残りは潔く明日に回しましょう。"
+          },
+          {
+            name: "2. 画面から離れて『視覚と脳の刺激』を減らす",
+            detail: "休憩中にスマホでSNSや動画を見ると、脳は休まらず情報処理が続きます。目を閉じる・温かい飲み物を飲む・軽く歩くなど、低刺激な休息を選びましょう。"
+          },
+          {
+            name: "3. 集中するなら『一番頭が軽い時間帯』に短時間だけ",
+            detail: "省エネ期は長時間粘るよりも、調子が少しでもマシな時間帯に15〜20分だけ集中し、あとは早めに切り上げるほうがトータルの質が上がります。"
+          }
+        ]
+      }
+    };
+
+    const order = ["high", "wave", "craft", "eco"];
+
+    function getInitialType() {
+      const params = new URLSearchParams(window.location.search);
+      const t = params.get("type");
+      return order.includes(t) ? t : "high";
+    }
+
+    let activeType = getInitialType();
+
+    function renderTabs() {
+      const tabsEl = document.getElementById("tabs");
+      tabsEl.innerHTML = "";
+      order.forEach((key) => {
+        const btn = document.createElement("button");
+        btn.className = `tab-btn ${key === activeType ? "active" : ""}`;
+        btn.textContent = reports[key].shortLabel;
+        btn.onclick = () => {
+          activeType = key;
+          renderTabs();
+          renderReport();
+        };
+        tabsEl.appendChild(btn);
+      });
+    }
+
+    function renderReport() {
+      const data = reports[activeType];
+      const cardEl = document.getElementById("report-card");
+
+      const hacksHtml = data.hacks
+        .map(
+          (h) => `
+          <li class="hack-item">
+            <div class="hack-name">${h.name}</div>
+            <div class="hack-detail">${h.detail}</div>
+          </li>
+        `
+        )
+        .join("");
+
+      cardEl.innerHTML = `
+        <div class="type-header">
+          <span class="score-pill">${data.scoreRange}</span>
+          <div class="type-title">${data.title}</div>
+        </div>
+
+        <div class="section-box">
+          <div class="section-title roast-title">🔥 辛口裏コメント（本音チェック）</div>
+          <p class="roast-text">${data.roast}</p>
+        </div>
+
+        <div class="section-box">
+          <div class="section-title hack-title">⚡ 集中力ハック3選</div>
+          <ul class="hack-list">${hacksHtml}</ul>
+        </div>
+      `;
+    }
+
+    renderTabs();
+    renderReport();
+  </script>
+</body>
+</html>
